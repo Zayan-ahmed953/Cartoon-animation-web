@@ -1,39 +1,4 @@
 
-# trigger:
-# - main
-
-# resources:
-# - repo: self
-
-# variables:
-#   dockerRegistryServiceConnection: '98d710ec-b30a-4e87-b6ac-1c98f2a0ff34'
-#   imageRepository: 'cartoonanimationweb'
-#   containerRegistry: 'globalllyuniqueeen43.azurecr.io'
-#   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-#   tag: '$(Build.BuildId)'
-
-# stages:
-# - stage: Build
-#   displayName: Build and push stage
-#   jobs:
-#   - job: Build
-#     displayName: Build
-#     pool:
-#       name: MyLaptopPool   # ✅ use your self-hosted pool name
-#     steps:
-#     - checkout: self
-#     - task: Docker@2
-#       displayName: Build and push an image to container registry
-#       inputs:
-#         command: buildAndPush
-#         repository: $(imageRepository)
-#         dockerfile: $(dockerfilePath)
-#         containerRegistry: $(dockerRegistryServiceConnection)
-#         tags: |
-#           $(tag)
-#           latest
-
-
 trigger:
 - main
 
