@@ -72,3 +72,16 @@ stages:
         tags: |
           $(commitHash)
           latest
+
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'appserviceconnection'   # 👈 service connection name
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az webapp config container set \
+            --name cartoonapp \
+            --resource-group ingress_RG \
+            --docker-custom-image-name "$(containerRegistry)/$(imageRepository):$(commitHash)" \
+            --docker-registry-server-url "https://$(containerRegistry)"
+
