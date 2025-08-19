@@ -1,7 +1,42 @@
-# Docker
-# Build and push an image to Azure Container Registry
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+# # Docker
+# # Build and push an image to Azure Container Registry
+# # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
+# trigger:
+# - main
+
+# resources:
+# - repo: self
+
+# variables:
+#   # Container registry service connection established during pipeline creation
+#   dockerRegistryServiceConnection: '98d710ec-b30a-4e87-b6ac-1c98f2a0ff34'
+#   imageRepository: 'cartoonanimationweb'
+#   containerRegistry: 'globalllyuniqueeen43.azurecr.io'
+#   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+#   tag: '$(Build.BuildId)'
+
+#   # Agent VM image name
+#   vmImageName: 'MyLaptopPool'
+
+# stages:
+# - stage: Build
+#   displayName: Build and push stage
+#   jobs:
+#   - job: Build
+#     displayName: Build
+#     pool:
+#       vmImage: $(vmImageName)
+#     steps:
+#     - task: Docker@2
+#       displayName: Build and push an image to container registry
+#       inputs:
+#         command: buildAndPush
+#         repository: $(imageRepository)
+#         dockerfile: $(dockerfilePath)
+#         containerRegistry: $(dockerRegistryServiceConnection)
+#         tags: |
+#           $(tag)
 trigger:
 - main
 
@@ -9,15 +44,11 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '98d710ec-b30a-4e87-b6ac-1c98f2a0ff34'
   imageRepository: 'cartoonanimationweb'
   containerRegistry: 'globalllyuniqueeen43.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-
-  # Agent VM image name
-  vmImageName: 'MyLaptopPool'
 
 stages:
 - stage: Build
@@ -26,8 +57,9 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      name: MyLaptopPool   # ✅ use your self-hosted pool name
     steps:
+    - checkout: self
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -37,3 +69,4 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+          latest
